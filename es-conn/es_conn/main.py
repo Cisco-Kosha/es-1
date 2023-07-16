@@ -8,7 +8,7 @@ if not args:
 # Create the client instance
 client = Elasticsearch(
     args.es_url,
-    ca_certs="/path/to/http_ca.crt",
+    ca_certs="./http_ca.crt",
     basic_auth=("elastic", args.es_pass)
 )
 
