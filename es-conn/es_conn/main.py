@@ -1,12 +1,12 @@
 from elasticsearch import Elasticsearch
-from elasticsearch.exceptions import HTTP_EXCEPTIONS
+from elasticsearch.exceptions import HTTP_EXCEPTIONS, AuthorizationException
 
 from cli import *
 
 
 def get_api_key_client(c):
     # API Key client. Use base client to create API Key
-    api_key = c.security.create_api_key(body={"name": "my-api-key", "expiration": "1d", "role_descriptors": {}})
+    api_key = c.security.create_api_key(name="my-api-key", expiration="1d", role_descriptors= {})
     print(api_key)
 
     api_key_client = Elasticsearch(
@@ -15,14 +15,13 @@ def get_api_key_client(c):
         api_key=(api_key.body["id"], api_key.body["api_key"])
     )
 
-    print(api_key_client.info())
     return api_key_client
 
 
 def get_bearer_token_client(c):
     try:
         # It will not work with basic license
-        test_bearer_token = c.security.get_token(body={"grant_type": "client_credentials"})
+        test_bearer_token = c.security.get_token(grant_type="client_credentials")
 
         # Adds the HTTP header 'Authorization: Bearer token-value'
         bearer_token_client = Elasticsearch(
@@ -31,7 +30,7 @@ def get_bearer_token_client(c):
             bearer_auth=test_bearer_token["access_token"]
         )
         return bearer_token_client
-    except HTTP_EXCEPTIONS as e:
+    except AuthorizationException as e:
         print(e)
     return None
 
@@ -58,7 +57,7 @@ if not args:
 
 # Create the client instance
 client = get_basic_client()
-client_fingerprint = get_basic_client_with_fingerprint()
-
-print(get_api_key_client(client))
+print(get_basic_client_with_fingerprint().info())
+print(get_api_key_client(client).info())
 print(get_bearer_token_client(client))
+print("Exiting...")
