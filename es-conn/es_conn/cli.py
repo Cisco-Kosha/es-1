@@ -9,13 +9,17 @@ def parse_cli(args=None):
         description='Toolkit for ElasticSearch connection',
         epilog='humm....foo bar?')
 
-    es_url = os.environ.get("ES_URL", "https://localhost:9200")
-    es_pass = os.environ.get("ES_PASSWORD", "your-password-here")
+    env_url = os.environ.get("ES_URL", "https://localhost:9200")
+    env_pass = os.environ.get("ES_PASSWORD", "your-password-here")
+    env_finger = os.environ.get("ES_FINGERPRINT", "your-cert_fingerprint")
 
-    parser.add_argument('-u', '--url', type=str, help='ElasticSeach URL',
-                        default=es_url)
+    parser.add_argument('-u', '--es_url', type=str, help='ElasticSearch URL',
+                        default=env_url)
 
-    parser.add_argument('-p', '--pass', type=str, help='ElasticSeach Password',
-                        default=es_pass)
+    parser.add_argument('-p', '--es_pass', type=str, help='ElasticSearch Password',
+                        default=env_pass)
+
+    parser.add_argument('-f', '--es_finger', type=str, help='ElasticSearch Certificate Fingerprint',
+                        default=env_finger)
 
     return parser.parse_args(args)
