@@ -1,5 +1,5 @@
 from elasticsearch import Elasticsearch
-from elasticsearch.exceptions import HTTP_EXCEPTIONS, AuthorizationException
+from elasticsearch.exceptions import AuthorizationException
 
 from cli import *
 
@@ -19,8 +19,8 @@ def get_api_key_client(c):
 
 
 def get_bearer_token_client(c):
+    # It will not work with basic license
     try:
-        # It will not work with basic license
         test_bearer_token = c.security.get_token(grant_type="client_credentials")
 
         # Adds the HTTP header 'Authorization: Bearer token-value'
@@ -55,9 +55,15 @@ args = parse_cli()
 if not args:
     exit(1)
 
+pad = 25
 # Create the client instance
+print("=" * pad, "Basic Authentication Client", "=" * pad)
 client = get_basic_client()
-print(get_basic_client_with_fingerprint().info())
-print(get_api_key_client(client).info())
+print(client.info(), "\n")
+print("=" * pad, "Basic Authentication Client with CA Fingerprint", "=" * pad)
+print(get_basic_client_with_fingerprint().info(), "\n")
+print("=" * pad, "API Key with CA Cert", "=" * pad)
+print(get_api_key_client(client).info(), "\n")
+print("=" * pad, "Bearer Token with CA Cert", "=" * pad)
 print(get_bearer_token_client(client))
 print("Exiting...")

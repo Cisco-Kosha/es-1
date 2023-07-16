@@ -9,6 +9,9 @@ def parse_cli(args=None):
         description='Toolkit for ElasticSearch connection',
         epilog='humm....foo bar?')
 
+    # Load environment variables from .env file but do not override
+    # ret = load_dotenv(dotenv_path=".env", override=False)
+
     env_url = os.environ.get("ES_URL", "https://localhost:9200")
     env_pass = os.environ.get("ES_PASSWORD", "your-password-here")
     env_finger = os.environ.get("ES_FINGERPRINT", "your-cert_fingerprint")
