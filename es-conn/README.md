@@ -1,5 +1,12 @@
 # Elasticsearch Connector
 
+ElasticSearch has two authentication domains if you will. Client API will try 
+to verify server certificate and also authenticate with one of: 
+
+* username and password
+* Bearer token
+* API key
+
 ## Start ES and Kibana
 
 Start ES server with ```./start_server.sh```
