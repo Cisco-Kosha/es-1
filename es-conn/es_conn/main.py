@@ -6,7 +6,7 @@ from cli import *
 
 def get_api_key_client(c):
     # API Key client. Use base client to create API Key
-    api_key = c.security.create_api_key(name="my-api-key", expiration="1d", role_descriptors= {})
+    api_key = c.security.create_api_key(name="my-api-key", expiration="1d", role_descriptors={})
     print(api_key)
 
     api_key_client = Elasticsearch(
