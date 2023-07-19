@@ -47,12 +47,6 @@ index_body = {
     }
 }
 
-# Elasticsearch request headers
-headers = {
-    'Authorization': f'ApiKey {API_KEY}',
-    'Content-Type': 'application/json',
-}
-
 # Create the Elasticsearch index
 url = f'{ELASTICSEARCH_HOST}/{INDEX_NAME}'
 response = requests.put(url, headers=headers, data=json.dumps(index_body), verify=CA_CERT_FILE)
