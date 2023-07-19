@@ -8,6 +8,10 @@ to verify server certificate and also authenticate with one of:
 * Service Token
 * API key
 
+## Limitations
+
+* Only tested with username and password authentication or API key. The free docker license does not support bearer token or service token.
+
 ## 1. Start ES and Kibana
 
 Start ES server with ```./start_server.sh``` and note down password and Kibana token
