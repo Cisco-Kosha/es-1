@@ -33,6 +33,19 @@ headers = {
     'Content-Type': 'application/json',
 }
 
+
+# Delete the Elasticsearch index if it exists for obvious reasons
+url = f'{ELASTICSEARCH_HOST}/{INDEX_NAME}'
+response = requests.delete(url, headers=headers, verify=CA_CERT_FILE)
+
+if response.status_code == 200:
+    print(f'Index "{INDEX_NAME}" deleted successfully.')
+elif response.status_code == 404:
+    print(f'Index "{INDEX_NAME}" not found.')
+else:
+    print(f'Failed to delete index with status code: {response.status_code}.')
+    print(response.text)
+
 # Define the index settings and mappings
 index_body = {
     'settings': {
