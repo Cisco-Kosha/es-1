@@ -169,3 +169,4 @@ __pycache__
 .vscode
 packages
 http_ca.cert
+api_key.txt

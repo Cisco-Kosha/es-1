@@ -6,9 +6,32 @@ import os
 ELASTICSEARCH_HOST = 'https://localhost:9200'
 INDEX_NAME = 'my_index_2'
 CA_CERT_FILE = 'http_ca.crt'  # Path to your CA certificate file
+API_KEY_FILE = 'api_key.txt'  # Path to your API key file
 
-# API-Key for authentication
-API_KEY = os.environ.get("API_KEY")
+try:
+    # Read the API key from the file
+    with open(API_KEY_FILE, 'r') as api_key_file:
+        API_KEY = api_key_file.read().strip()
+
+    # Rest of the code remains the same...
+
+except FileNotFoundError:
+    print(f"API key file '{API_KEY_FILE}' not found.")
+except Exception as e:
+    print(f"An error occurred while reading the API key: {e}")
+
+# Try with environment variable
+API_KEY = os.environ.get("API_KEY", API_KEY)
+
+if not API_KEY:
+    print("No API key found. Please set the API_KEY environment variable.")
+    exit(1)
+
+# Elasticsearch request headers
+headers = {
+    'Authorization': f'ApiKey elastic:{API_KEY}',
+    'Content-Type': 'application/json',
+}
 
 # Define the index settings and mappings
 index_body = {
